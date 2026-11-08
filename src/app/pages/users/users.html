@@ -1,0 +1,25 @@
+<div class="page-header theme-sky">
+  <div class="page-title">
+    <span class="page-icon" aria-hidden="true">👥</span>
+    <div>
+      <h1>
+        Usuarios
+        @if (meta(); as meta) {
+          <span class="count-chip">{{ meta.totalElements }}</span>
+        }
+      </h1>
+      <p class="page-subtitle">Personas registradas en el sistema (solo administrador)</p>
+    </div>
+  </div>
+</div>
+
+@if (errorMessage()) {
+  <p class="alert alert-error" role="alert">⚠️ {{ errorMessage() }}</p>
+}
+
+@if (loading()) {
+  <p class="loading">Cargando usuarios...</p>
+} @else {
+  <app-user-list [users]="users()" />
+  <app-pagination [meta]="meta()" (pageChange)="loadUsers($event)" />
+}

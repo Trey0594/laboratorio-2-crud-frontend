@@ -1,0 +1,473 @@
+/* Estilos globales compartidos por todas las páginas */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Paleta pastel */
+  --lavender: #b9a8ff;
+  --lavender-soft: #ece7ff;
+  --mint: #8fdcc0;
+  --mint-soft: #e2f7ef;
+  --peach: #ffbf9b;
+  --peach-soft: #fff0e6;
+  --pink: #ff9fb6;
+  --pink-soft: #ffe8ee;
+  --sky: #8ccaf0;
+  --sky-soft: #e4f3fc;
+  --lemon: #ffe08a;
+  --lemon-soft: #fff8dc;
+
+  --primary-color: #7c6cf0;
+  --primary-dark: #5b4bd6;
+  --danger-color: #e0567a;
+  --success-color: #2f9e74;
+  --text-color: #2d2a3e;
+  --muted-color: #7a7690;
+  --shadow: 0 10px 30px rgba(124, 108, 240, 0.12);
+  --radius: 18px;
+}
+
+body {
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  color: var(--text-color);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 10%, var(--pink-soft) 0, transparent 40%),
+    radial-gradient(circle at 90% 20%, var(--sky-soft) 0, transparent 40%),
+    radial-gradient(circle at 50% 100%, var(--mint-soft) 0, transparent 50%),
+    #fbfaff;
+  background-attachment: fixed;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+/* Animaciones */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Botones */
+button {
+  padding: 9px 16px;
+  border-radius: 12px;
+  border: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.primary {
+  background: linear-gradient(135deg, var(--primary-color), #a78bfa);
+  color: white;
+  box-shadow: 0 6px 16px rgba(124, 108, 240, 0.35);
+}
+
+button.primary:hover:not(:disabled) {
+  box-shadow: 0 10px 22px rgba(124, 108, 240, 0.45);
+}
+
+button.secondary {
+  background: var(--lavender-soft);
+  color: var(--primary-dark);
+}
+
+button.edit {
+  background: var(--sky-soft);
+  color: #2b77a8;
+}
+
+button.danger {
+  background: var(--pink-soft);
+  color: #c23a5e;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--lavender);
+  outline-offset: 2px;
+}
+
+/* Tarjetas y formularios */
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 10px;
+  color: var(--muted-color);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 2px solid var(--lavender-soft);
+  border-radius: 12px;
+  background: #fdfcff;
+  font: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--lavender);
+  box-shadow: 0 0 0 4px var(--lavender-soft);
+}
+
+form button[type='submit'] {
+  margin-top: 18px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.form-actions button[type='submit'] {
+  margin-top: 0;
+}
+
+.field-error {
+  color: var(--danger-color);
+  font-size: 12px;
+}
+
+/* Ventana emergente (modal) para los formularios */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(45, 42, 62, 0.35);
+  backdrop-filter: blur(4px);
+  animation: fade-in 0.2s ease;
+}
+
+.modal {
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--radius);
+  animation: pop-in 0.25s ease;
+}
+
+.modal .card {
+  background: white;
+}
+
+/* Mensajes */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  animation: fade-up 0.3s ease;
+}
+
+.alert-error {
+  background: var(--pink-soft);
+  color: #b0304f;
+}
+
+.alert-success {
+  background: var(--mint-soft);
+  color: var(--success-color);
+}
+
+.alert-info {
+  background: var(--lemon-soft);
+  color: #8a6a00;
+}
+
+.loading,
+.empty {
+  color: var(--muted-color);
+  text-align: center;
+  padding: 28px 16px;
+}
+
+/* Encabezado de página */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: fade-up 0.35s ease;
+}
+
+.page-header.theme-peach {
+  background: linear-gradient(135deg, var(--peach-soft), var(--pink-soft));
+}
+
+.page-header.theme-mint {
+  background: linear-gradient(135deg, var(--mint-soft), var(--sky-soft));
+}
+
+.page-header.theme-sky {
+  background: linear-gradient(135deg, var(--sky-soft), var(--lavender-soft));
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: white;
+  font-size: 28px;
+  box-shadow: var(--shadow);
+}
+
+.page-subtitle {
+  color: var(--muted-color);
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.count-chip {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  vertical-align: middle;
+}
+
+/* Tablas */
+.table-wrapper {
+  overflow-x: auto;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: fade-up 0.4s ease;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 14px 18px;
+  text-align: left;
+}
+
+th {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted-color);
+  border-bottom: 2px solid var(--lavender-soft);
+}
+
+tbody tr {
+  border-bottom: 1px solid #f1eff9;
+  transition: background 0.15s ease;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #faf8ff;
+}
+
+.cell-id {
+  color: var(--muted-color);
+  font-weight: 600;
+}
+
+.cell-name {
+  font-weight: 600;
+}
+
+.cell-muted {
+  color: var(--muted-color);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Etiquetas de colores */
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pill-0 {
+  background: var(--peach-soft);
+  color: #b85e27;
+}
+
+.pill-1 {
+  background: var(--mint-soft);
+  color: #25845f;
+}
+
+.pill-2 {
+  background: var(--sky-soft);
+  color: #2b77a8;
+}
+
+.pill-3 {
+  background: var(--pink-soft);
+  color: #b0304f;
+}
+
+.pill-4 {
+  background: var(--lemon-soft);
+  color: #8a6a00;
+}
+
+.pill-5 {
+  background: var(--lavender-soft);
+  color: var(--primary-dark);
+}
+
+.stock-low {
+  color: var(--danger-color);
+  font-weight: 700;
+}
+
+/* Etiqueta de rol */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--mint-soft);
+  color: #25845f;
+}
+
+.badge-admin {
+  background: linear-gradient(135deg, var(--lavender), var(--pink));
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

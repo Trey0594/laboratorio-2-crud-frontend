@@ -1,0 +1,23 @@
+@if (meta(); as meta) {
+  @if (meta.totalPages > 1) {
+    <nav class="pagination" aria-label="Paginación">
+      <button
+        type="button"
+        class="secondary"
+        [disabled]="meta.pageNumber <= 1"
+        (click)="goTo(meta.pageNumber - 1)"
+      >
+        Anterior
+      </button>
+      <span>Página {{ meta.pageNumber }} de {{ meta.totalPages }}</span>
+      <button
+        type="button"
+        class="secondary"
+        [disabled]="meta.pageNumber >= meta.totalPages"
+        (click)="goTo(meta.pageNumber + 1)"
+      >
+        Siguiente
+      </button>
+    </nav>
+  }
+}

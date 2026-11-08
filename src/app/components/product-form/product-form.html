@@ -1,0 +1,57 @@
+<section class="card">
+  <h2>{{ isEditing() ? '✏️ Editar producto' : '📦 Nuevo producto' }}</h2>
+
+  @if (errorMessage()) {
+    <p class="alert alert-error" role="alert">{{ errorMessage() }}</p>
+  }
+
+  @if (categories().length === 0) {
+    <p class="alert alert-info">Primero debe crear al menos una categoría.</p>
+  }
+
+  <form [formGroup]="productForm" (ngSubmit)="submit()" novalidate>
+    <label for="product-name">Nombre</label>
+    <input id="product-name" type="text" formControlName="name" />
+    @if (productForm.controls.name.touched && productForm.controls.name.invalid) {
+      <small class="field-error">El nombre es obligatorio (máximo 100 caracteres).</small>
+    }
+
+    <label for="product-description">Descripción</label>
+    <textarea id="product-description" formControlName="description" rows="3"></textarea>
+
+    <div class="form-row">
+      <div>
+        <label for="product-price">Precio</label>
+        <input id="product-price" type="number" min="0" step="0.01" formControlName="price" />
+        @if (productForm.controls.price.touched && productForm.controls.price.invalid) {
+          <small class="field-error">Ingrese un precio válido.</small>
+        }
+      </div>
+      <div>
+        <label for="product-stock">Stock</label>
+        <input id="product-stock" type="number" min="0" step="1" formControlName="stock" />
+        @if (productForm.controls.stock.touched && productForm.controls.stock.invalid) {
+          <small class="field-error">Ingrese un stock válido.</small>
+        }
+      </div>
+    </div>
+
+    <label for="product-category">Categoría</label>
+    <select id="product-category" formControlName="categoryId">
+      <option [ngValue]="null" disabled>Seleccione una categoría</option>
+      @for (category of categories(); track category.id) {
+        <option [ngValue]="category.id">{{ category.name }}</option>
+      }
+    </select>
+    @if (productForm.controls.categoryId.touched && productForm.controls.categoryId.invalid) {
+      <small class="field-error">Seleccione una categoría.</small>
+    }
+
+    <div class="form-actions">
+      <button type="button" class="secondary" (click)="cancel()">Cancelar</button>
+      <button type="submit" class="primary" [disabled]="saving()">
+        {{ isEditing() ? 'Guardar cambios' : 'Crear producto' }}
+      </button>
+    </div>
+  </form>
+</section>

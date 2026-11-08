@@ -1,0 +1,96 @@
+<div class="page-header theme-mint">
+  <div class="page-title">
+    <span class="page-icon" aria-hidden="true">🏷️</span>
+    <div>
+      <h1>
+        Categorías
+        @if (meta(); as meta) {
+          <span class="count-chip">{{ meta.totalElements }}</span>
+        }
+      </h1>
+      <p class="page-subtitle">Organice los productos por tipo</p>
+    </div>
+  </div>
+  @if (authService.isAdmin()) {
+    <button type="button" class="primary" (click)="openCreateForm()">+ Nueva categoría</button>
+  }
+</div>
+
+@if (!authService.isAdmin()) {
+  <p class="alert alert-info">
+    👀 Modo solo lectura: únicamente el administrador puede crear, editar o eliminar.
+  </p>
+}
+@if (successMessage()) {
+  <p class="alert alert-success" role="status">✅ {{ successMessage() }}</p>
+}
+@if (errorMessage()) {
+  <p class="alert alert-error" role="alert">⚠️ {{ errorMessage() }}</p>
+}
+
+@if (showForm() && authService.isAdmin()) {
+  <div class="modal-backdrop" (click)="closeForm()">
+    <div
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Formulario de categoría"
+      (click)="$event.stopPropagation()"
+    >
+      <app-category-form
+        [category]="selectedCategory()"
+        (saved)="onSaved()"
+        (cancelled)="closeForm()"
+      />
+    </div>
+  </div>
+}
+
+@if (loading()) {
+  <p class="loading">Cargando categorías...</p>
+} @else {
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripción</th>
+          @if (authService.isAdmin()) {
+            <th scope="col">Acciones</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of categories(); track category.id) {
+          <tr>
+            <td class="cell-id">#{{ category.id }}</td>
+            <td>
+              <span class="pill" [class]="pastelClass(category.id)">{{ category.name }}</span>
+            </td>
+            <td class="cell-muted">{{ category.description }}</td>
+            @if (authService.isAdmin()) {
+              <td>
+                <div class="actions">
+                  <button type="button" class="edit" (click)="openEditForm(category)">
+                    ✏️ Editar
+                  </button>
+                  <button type="button" class="danger" (click)="deleteCategory(category)">
+                    🗑️ Eliminar
+                  </button>
+                </div>
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr>
+            <td [attr.colspan]="authService.isAdmin() ? 4 : 3" class="empty">
+              🌱 No hay categorías registradas.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <app-pagination [meta]="meta()" (pageChange)="loadCategories($event)" />
+}

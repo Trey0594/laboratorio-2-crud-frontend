@@ -1,0 +1,105 @@
+<div class="page-header theme-peach">
+  <div class="page-title">
+    <span class="page-icon" aria-hidden="true">📦</span>
+    <div>
+      <h1>
+        Productos
+        @if (meta(); as meta) {
+          <span class="count-chip">{{ meta.totalElements }}</span>
+        }
+      </h1>
+      <p class="page-subtitle">Inventario de la tienda</p>
+    </div>
+  </div>
+  @if (authService.isAdmin()) {
+    <button type="button" class="primary" (click)="openCreateForm()">+ Nuevo producto</button>
+  }
+</div>
+
+@if (!authService.isAdmin()) {
+  <p class="alert alert-info">
+    👀 Modo solo lectura: únicamente el administrador puede crear, editar o eliminar.
+  </p>
+}
+@if (successMessage()) {
+  <p class="alert alert-success" role="status">✅ {{ successMessage() }}</p>
+}
+@if (errorMessage()) {
+  <p class="alert alert-error" role="alert">⚠️ {{ errorMessage() }}</p>
+}
+
+@if (showForm() && authService.isAdmin()) {
+  <div class="modal-backdrop" (click)="closeForm()">
+    <div
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Formulario de producto"
+      (click)="$event.stopPropagation()"
+    >
+      <app-product-form
+        [product]="selectedProduct()"
+        [categories]="categories()"
+        (saved)="onSaved()"
+        (cancelled)="closeForm()"
+      />
+    </div>
+  </div>
+}
+
+@if (loading()) {
+  <p class="loading">Cargando productos...</p>
+} @else {
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Categoría</th>
+          @if (authService.isAdmin()) {
+            <th scope="col">Acciones</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products(); track product.id) {
+          <tr>
+            <td class="cell-id">#{{ product.id }}</td>
+            <td class="cell-name">{{ product.name }}</td>
+            <td class="cell-muted">{{ product.description }}</td>
+            <td>{{ product.price | currency: 'CRC' : 'symbol-narrow' : '1.2-2' }}</td>
+            <td [class.stock-low]="product.stock < 5">{{ product.stock }}</td>
+            <td>
+              <span class="pill" [class]="pastelClass(product.category.id)">{{
+                product.category.name
+              }}</span>
+            </td>
+            @if (authService.isAdmin()) {
+              <td>
+                <div class="actions">
+                  <button type="button" class="edit" (click)="openEditForm(product)">
+                    ✏️ Editar
+                  </button>
+                  <button type="button" class="danger" (click)="deleteProduct(product)">
+                    🗑️ Eliminar
+                  </button>
+                </div>
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr>
+            <td [attr.colspan]="authService.isAdmin() ? 7 : 6" class="empty">
+              🛒 No hay productos registrados.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <app-pagination [meta]="meta()" (pageChange)="loadProducts($event)" />
+}

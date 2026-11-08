@@ -1,0 +1,25 @@
+<section class="card">
+  <h2>{{ isEditing() ? '✏️ Editar categoría' : '🏷️ Nueva categoría' }}</h2>
+
+  @if (errorMessage()) {
+    <p class="alert alert-error" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <form [formGroup]="categoryForm" (ngSubmit)="submit()" novalidate>
+    <label for="category-name">Nombre</label>
+    <input id="category-name" type="text" formControlName="name" />
+    @if (categoryForm.controls.name.touched && categoryForm.controls.name.invalid) {
+      <small class="field-error">El nombre es obligatorio (máximo 100 caracteres).</small>
+    }
+
+    <label for="category-description">Descripción</label>
+    <textarea id="category-description" formControlName="description" rows="3"></textarea>
+
+    <div class="form-actions">
+      <button type="button" class="secondary" (click)="cancel()">Cancelar</button>
+      <button type="submit" class="primary" [disabled]="saving()">
+        {{ isEditing() ? 'Guardar cambios' : 'Crear categoría' }}
+      </button>
+    </div>
+  </form>
+</section>

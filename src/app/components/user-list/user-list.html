@@ -1,0 +1,37 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Usuario</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Registrado</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users(); track user.id) {
+        <tr>
+          <td>
+            <div class="user-cell">
+              <span class="avatar" [class]="'avatar-' + (user.id % 4)" aria-hidden="true">
+                {{ initials(user.name, user.lastname) }}
+              </span>
+              <span class="cell-name">{{ user.name }} {{ user.lastname }}</span>
+            </div>
+          </td>
+          <td class="cell-muted">{{ user.email }}</td>
+          <td>
+            <span class="badge" [class.badge-admin]="user.role.name === 'SUPER-ADMIN-ROLE'">{{
+              user.role.name
+            }}</span>
+          </td>
+          <td class="cell-muted">{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4" class="empty">No hay usuarios registrados.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

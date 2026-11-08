@@ -1,0 +1,32 @@
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.avatar-0 {
+  background: var(--peach);
+}
+
+.avatar-1 {
+  background: linear-gradient(135deg, var(--lavender), var(--pink));
+}
+
+.avatar-2 {
+  background: var(--mint);
+}
+
+.avatar-3 {
+  background: var(--sky);
+}

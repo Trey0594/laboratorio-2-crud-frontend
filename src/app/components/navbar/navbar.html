@@ -1,0 +1,33 @@
+<header class="navbar">
+  <a routerLink="/products" class="brand">
+    <span class="brand-icon" aria-hidden="true">📦</span>
+    <span class="brand-text">StockUp</span>
+  </a>
+
+  <nav aria-label="Menú principal">
+    <a routerLink="/products" routerLinkActive="active" class="link-peach">
+      <span aria-hidden="true">📦</span> Productos
+    </a>
+    <a routerLink="/categories" routerLinkActive="active" class="link-mint">
+      <span aria-hidden="true">🏷️</span> Categorías
+    </a>
+    @if (authService.isAdmin()) {
+      <a routerLink="/users" routerLinkActive="active" class="link-sky">
+        <span aria-hidden="true">👥</span> Usuarios
+      </a>
+    }
+  </nav>
+
+  <div class="session">
+    @if (authService.currentUser(); as user) {
+      <span class="avatar" [class.avatar-admin]="authService.isAdmin()" aria-hidden="true">{{
+        userInitials()
+      }}</span>
+      <div class="user-info">
+        <span class="user-name">{{ user.name }} {{ user.lastname }}</span>
+        <span class="badge" [class.badge-admin]="authService.isAdmin()">{{ user.role.name }}</span>
+      </div>
+    }
+    <button type="button" class="secondary" (click)="logout()">Salir</button>
+  </div>
+</header>
